@@ -152,5 +152,13 @@ def create_tier_client(config: dict, tier: str, **extra) -> BaseLLMClient:
     else:
         base_url = config.get(f"{tier}_think_backend_url")
     kwargs = build_llm_kwargs({**config, "llm_provider": provider})
+    # A tier may set its own Anthropic effort (``deep_anthropic_effort`` /
+    # ``quick_anthropic_effort``), so the managers can think hard while the
+    # analysts and debaters run at the default. Present-but-None means no effort.
+    tier_effort_key = f"{tier}_anthropic_effort"
+    if provider == "anthropic" and tier_effort_key in config:
+        kwargs.pop("effort", None)
+        if config[tier_effort_key]:
+            kwargs["effort"] = config[tier_effort_key]
     return create_llm_client(provider=provider, model=config[f"{tier}_think_llm"], base_url=base_url,
                              **kwargs, **extra)
