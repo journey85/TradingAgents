@@ -70,6 +70,10 @@ before any call once spend reaches the cap.
 
 ## Ground rules
 
+- **Personal fork, no contributions upstream.** Nothing from this fork goes to
+  TauricResearch/TradingAgents: no pull requests, issues or pushes. The `upstream` remote is
+  fetch-only; disable its push URL on any new clone with
+  `git remote set-url --push upstream DISABLED-personal-fork-never-push-upstream`.
 - **The fork is public.** Personal data stays in `research_data/`, which git ignores. Never
   commit API keys, the watchlist, the ledger or reports.
 - **`main` mirrors upstream; work happens on `research`.** To take an upstream release:
